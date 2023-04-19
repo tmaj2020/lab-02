@@ -16,14 +16,16 @@ int main(int argc, char const *argv[])
 	char socket_read_buffer[1024];
 	
 	// TODO: Fill out the server ip and port
-	std::string server_ip = "";
-	std::string server_port = "";
+	std::string server_ip = "127.0.0.1";
+	std::string server_port = "10101";
 
 	int opt = 1;
 	int client_fd = -1;
 
 	// TODO: Create a TCP socket()
-
+	client_fd = socket(AF_INET, SOCK_STREAM, 0);
+		
+	
 	// Enable reusing address and port
 	if (setsockopt(client_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) { 
 		return -1;
@@ -44,10 +46,25 @@ int main(int argc, char const *argv[])
 	getaddrinfo(server_ip.c_str(), server_port.c_str(), &hints, &server_addr);
 
 	// TODO: Connect() to the server (hint: you'll need to use server_addr)
-	// TODO: Retreive user input
-	// TODO: Send() the user input to the server
-	// TODO: Recieve any messages from the server and print it here. Don't forget to make sure the string is null terminated!
+	struct sockaddr* comm_addr = server_addr->ai_addr;
+	connect(client_fd, comm_addr, sizeof(*server_addr));
+	
+	int n;
+	while(1){
+		char buffer[256];
+		
+		// TODO: Retreive user input
+		std::cin >> buffer;
+		
+		// TODO: Send() the user input to the server
+		send(client_fd, buffer, 256 + 1, 0);
+		
+		// TODO: Recieve any messages from the server and print it here. Don't forget to make sure the string is null terminated!
+		recv(client_fd, socket_read_buffer, 1024 + 1, 0);
+		printf("Here is the server message: %s\n",socket_read_buffer);
+		
+	}
 	// TODO: Close() the socket
-
+	close(client_fd);
 	return 0; 
 } 
