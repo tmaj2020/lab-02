@@ -22,6 +22,7 @@ Answer for Question 3:
 	The time it took for the TCP server to receive packets from the sender took much longer when the packet loss was
 	introduced. This is likely due to how TCP requires for acknowledgement of the receipt of these packets and has to
 	resend the packet that was 'lost' if this acknowledgement is not received by the sender.
+
 -----------------------------------------------------------------------------------------------------------------------------
 Answer for Question 1 (server code): 
 	The parameters argc and argv are the two parameters that can be accepted into the main function from the command line.
