@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 	char socket_read_buffer[1024];
 	
 	// TODO: Fill out the server ip and port
-	std::string server_ip = "127.0.0.1";
+	std::string server_ip = "192.168.67.192"; //This is the IP address for my raspberry pi
 	std::string server_port = "10101";
 
 	int opt = 1;
@@ -50,20 +50,23 @@ int main(int argc, char const *argv[])
 	connect(client_fd, comm_addr, sizeof(*server_addr));
 	
 	int n;
-	while(1){
-		char buffer[256];
+	
+	char buffer[256];
+	std::string input;
 		
-		// TODO: Retreive user input
-		std::cin >> buffer;
-		
-		// TODO: Send() the user input to the server
-		send(client_fd, buffer, 256 + 1, 0);
-		
-		// TODO: Recieve any messages from the server and print it here. Don't forget to make sure the string is null terminated!
-		recv(client_fd, socket_read_buffer, 1024 + 1, 0);
-		printf("Here is the server message: %s\n",socket_read_buffer);
-		
+	// TODO: Retreive user input
+	std::getline(std::cin, input);
+	for(int i = 0; i < input.length(); i++) {
+		buffer[i] = input.at(i);
 	}
+	
+	// TODO: Send() the user input to the server
+	send(client_fd, buffer, 256 + 1, 0);
+		
+	// TODO: Recieve any messages from the server and print it here. Don't forget to make sure the string is null terminated!
+	recv(client_fd, socket_read_buffer, 1024 + 1, 0);
+	printf("Here is the server message: %s\n",socket_read_buffer);
+		
 	// TODO: Close() the socket
 	close(client_fd);
 	return 0; 
